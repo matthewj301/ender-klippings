@@ -3,7 +3,9 @@ My personal Klipper firmware settings and general calibration info for the Ender
 
 ## Hardware
 - Extruder: Sprite Extruder (stock)
-- Hotend: Slice Engineering Copperhead
+- Part Cooling: 2 Delta 5015 blower fans
+- Heatsink Cooling: Stock Sprite 4020 blower fan (originally the part cooling fan)
+- Hotend: Triangle Labs CHC Hotend
 - Favorite Nozzles: Bondtech CHTs
 - Klipper host: Creality Sonic Pad
 
