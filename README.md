@@ -10,6 +10,7 @@ My personal Klipper firmware settings and general calibration info for the Ender
 ## Helpful Calibration References
 - https://ellis3dp.com/Print-Tuning-Guide/
 - https://teachingtechyt.github.io/index.html
+- https://github.com/rootiest/zippy-klipper_config/blob/master/guides/GUIDE-axis_limits.md
 
 ## Easiest Pressure Advance Calibration GCode Generator
 - https://ellis3dp.com/Pressure_Linear_Advance_Tool/
