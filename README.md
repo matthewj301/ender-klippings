@@ -16,3 +16,8 @@ My personal Klipper firmware settings and general calibration info for the Ender
 
 ## Easiest Pressure Advance Calibration GCode Generator
 - https://ellis3dp.com/Pressure_Linear_Advance_Tool/
+
+## Useful Printable Mods
+- https://www.thingiverse.com/nitecrawler62/collections/ender-3-s1-parts
+- https://www.thingiverse.com/nitecrawler62/collections/sunlu-s2-parts
+- https://www.thingiverse.com/nitecrawler62/designs
