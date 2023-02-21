@@ -1,0 +1,39 @@
+Important Notes on this machine and Klipper:
+- With Klipper firmware, everything relating to the printer is defined in printer.cfg
+
+- The current fan and extruder reversal mod reduces the Y axis space to about 179mm. You can see the "physical limits" in printer.cfg under stepper_x and stepper_y (position_max and position_min variables).
+
+- Info on the aftermarket mainboard (circuit board attached to the printer head): https://www.nathansellsrobots.com/products/modder-board-for-ender-3-s1-1
+
+- If you switch back to the stock heater cartridge, make sure you update the "sensor_type" under "extruder" to "EPCOS 100K B57560G104F" and run a hotend PID tune
+
+- If you switch to a different heater cartridge, or thermister, you should not need to update the heater_pin or sensor_pin, they are wired to the same circuit paths as the default creality plugs on the mainboard
+
+- If you switch back to the more default cofiguration (flipping the extruder back the stock way, with the "Creality" logo facing away from you), you will need to recalibrate the stepper_x and stepper_y position_max and position_min and probably position_endstop values. Use this guide if you're confused https://github.com/rootiest/zippy-klipper_config/blob/master/guides/GUIDE-axis_limits.md
+
+- If the CR Touch (auto bed leveling sensor) moves in relation to the bed and/or nozzle, you need to update the x and y offsets (distance from the nozzle) under "bltouch", the "mesh_min" and "mesh_max" under "bed_mesh", and the screw positions under "screws_tilt_adjust".
+
+- If fans aren't working when plugged into the aftermarket mainboard, check the polarity. You can see I switched around 2 of the plastic plugs on top in order to reverse the polarity to support the plugged in fans. 
+
+- Make sure you use 24V and NOT 12V fans! The Delta fans included are very good, and you shouldn't need other ones.
+
+- Klipper gcode differs from Marlin (stock) gcode in some ways, and not all Marlin gcode is recognized by Klipper. Klipper utilizes macros in order to define reproducable gcode, like START_PRINT. Most of the relevant Marlin gcode commands not recognized by Klipper are defined as macros in the macros/ directory (if you are using the configs on the Sonic Pad). 
+
+- If you're using my configs
+	- You should adjust your "Start G-code" (usually defined under your printer's settings in your slicer) to pass: START_PRINT HOTEND={first_layer_temperature} BED={first_layer_bed_temperature} RELATIVE_E_MODE={use_relative_e_distances} PROBE=false PROBE_AREA_START=%MINX%,%MINY% PROBE_AREA_END=%MAXX%,%MAXY% NOZZLE_DIAMETER={nozzle_diameter}
+		- The variables in the {} brackets will change based on what slicer you're using, the above is for SuperSlicer
+		- This macro will home the printer, start heating up the hotend and bed in a way that reduces the time to print, as well as do a purge line on the lefthand side of the bed prior to printing.
+	- You should also adjust your "end G-code" to be: END_PRINT
+		- This will move the bed forward, move the printer head to a safe spot, retract the filament a bit, and turn off the stepper motors and heaters.
+	- You can also obviously edit these macros in the macros/ directory
+	- The printer should behave fine without passing in the above and just keeping your slicer's default start/stop g-code, but I haven't done that in a while, so if you want to try it, make sure you have your hand on the printer power switch in base of the nozzle running into the bed or other weirdness!
+
+- Note that there is a static pressure_advance value in the printer.cfg. This is rarely used by me because I pass in the actual pressure advance value for the specific filament/nozzle via custom GCode in Cura or SuperSlicer (other slicers similar to the Creality one you use). If you don't have the ability to dynamically pass in the above, you have to change this value in printer.cfg when you change nozzle sizes, filament, hotend, etc. Pressure Advance helps massively in being able to print faster more accurately. 
+
+- Make sure to retune the resonance compensation (https://www.klipper3d.org/Resonance_Compensation.html) with the provided accelerometer, since the printer will be in a different environment. 
+
+- You can ssh into the Creality Sonic Pad (in order to set up git backups of you configs, for example) with: ssh -oHostKeyAlgorithms=+ssh-rsa creality@<ip_of_sonic_pad>
+	- Password: creality
+	- the "-oHostKeyAlgorithms=+ssh-rsa" argument is required because the Sonic Pad is running an older version of openSSH, where RSA authentication was still enabled by default, most modern operating systems have a newer version, which disables RSA auth by default.
+
+- Additional helpful resources for calibration, as well as previous configs, can be found here: https://github.com/matthewj301/ender-klippings/blob/sonicpad/README.md
